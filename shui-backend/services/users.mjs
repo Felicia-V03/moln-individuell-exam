@@ -5,7 +5,7 @@ import { client } from "./client.mjs";
 export const createUser = async (user) => {
   console.log("Creating user:", user);
   const command = new PutItemCommand({
-    TableName : 'shui-table',
+    TableName : 'shui-messages-table',
     Item : {
       PK : { S : `USER#${user.username}` },
       SK : { S : 'PROFILE' },
