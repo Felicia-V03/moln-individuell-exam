@@ -1,0 +1,19 @@
+org: leucippus03
+service: shui-backend
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: eu-north-1
+  httpApi:
+    cors: true
+  iam:
+    role: arn:aws:iam::747901701476:role/BasicLambdaRole
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - httpApi:
+          path: /
+          method: get
