@@ -1,5 +1,4 @@
 import { hashPassword } from "../utils/bcrypt.mjs";
-import { v4 as uuidv4 } from "uuid";
 import { PutItemCommand } from "@aws-sdk/client-dynamodb";
 import { client } from "./client.mjs";
 
@@ -8,7 +7,7 @@ export const createUser = async (user) => {
   const command = new PutItemCommand({
     TableName : 'shui-table',
     Item : {
-      PK : { S : `USER#${uuidv4()}` },
+      PK : { S : `USER#${user.username}` },
       SK : { S : 'PROFILE' },
       attributes: {
         M: {
