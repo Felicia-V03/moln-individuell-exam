@@ -24,6 +24,7 @@ functions:
       - httpApi:
           path: /api/auth/login
           method: POST
+
   ##Messages
   CreateMessage:
     handler: functions/messages/CreateMessage/index.handler
@@ -31,18 +32,6 @@ functions:
       - httpApi:
           path: /api/messages
           method: POST
-  UpdateMessage:
-    handler: functions/messages/UpdateMessage/index.handler
-    events:
-      - httpApi:
-          path: /api/messages/{id}
-          method: PUT
-  DeleteMessage:
-    handler: functions/messages/DeleteMessage/index.handler
-    events:
-      - httpApi:
-          path: /api/messages/{id}
-          method: DELETE
   GetMessage:
     handler: functions/messages/GetMessage/index.handler
     events:
@@ -55,6 +44,18 @@ functions:
       - httpApi:
           path: /api/messages/{id}
           method: GET
+  UpdateMessage:
+    handler: functions/messages/UpdateMessage/index.handler
+    events:
+      - httpApi:
+          path: /api/messages/{id}
+          method: PUT
+  DeleteMessage:
+    handler: functions/messages/DeleteMessage/index.handler
+    events:
+      - httpApi:
+          path: /api/messages/{id}
+          method: DELETE
 
 resources:
   Resources:
