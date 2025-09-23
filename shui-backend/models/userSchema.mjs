@@ -2,7 +2,7 @@ import Joi from "joi";
 
 export const userSchema = Joi.object({
   username : Joi.string().alphanum().min(6).required(),
-  passordd : Joi.string()
+  password : Joi.string()
     .alphanum()
     .min(8)
     .pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/)
