@@ -1,14 +1,14 @@
 import { client } from '../utils/client.mjs';
 import { PutItemCommand } from '@aws-sdk/client-dynamodb';
 import { generateId } from '../utils/generateId.mjs';
-import { formatDateAndTime } from '../utils/formatDateAndTime.mjs';
+import { createdAt } from '../utils/createdAt.mjs';
 
 export const addMessage = async (username, message, messageId) => {
   if (!messageId) {
     messageId = generateId(4);
   }
 
-  const dateTime = formatDateAndTime();
+  const dateTime = createdAt();
 
   const command = new PutItemCommand({
     TableName: 'shui-message-table',
