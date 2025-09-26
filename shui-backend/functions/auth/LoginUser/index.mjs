@@ -12,6 +12,7 @@ export const handler = middy(async (event) => {
   if(response) {
     if(await comparePasswords(event.body.password, response.attributes.password)) {
       const token = generateToken({ username: response.attributes.username });
+      
       return sendResponse(200, {
         message : 'Login successful',
         token : `Bearer ${token}`
