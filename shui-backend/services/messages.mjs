@@ -1,4 +1,4 @@
-import { PutItemCommand, QueryCommand, DeleteItemCommand } from '@aws-sdk/client-dynamodb';
+import { PutItemCommand, GetItemCommand, QueryCommand, DeleteItemCommand, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
 import { client } from './client.mjs';
 import { generateId } from '../utils/uuid.mjs';
 import { formatDateAndTime } from '../utils/createdAt.mjs';
@@ -148,5 +148,46 @@ export const deleteMessage = async (messageId) => {
   } catch (error) {
     console.error('Error deleting message:', error);
     return false;
+  }
+};
+
+export const updateMessage = async (username, messageId, newMessage) => {
+  const updatedAt = formatDateAndTime();
+  
+  const getCommand = new GetItemCommand({
+    TableName: 'shui-messages-table',
+    Key: {
+      PK: { S: `USER#${username}` },
+      SK: { S: `MESSAGE#${messageId}` }
+    }
+  });
+
+  try {
+    const { Item } = await client.send(getCommand);
+
+    if (!Item) {
+      return null;
+    }
+
+    const updateCommand = new UpdateItemCommand({
+      TableName: 'shui-messages-table',
+      Key: {
+        PK: { S: `USER#${username}` },
+        SK: { S: `MESSAGE#${messageId}` }
+      },
+      UpdateExpression: 'SET attributes.message = :msg, attributes.updatedAt = :updatedAt',
+      ExpressionAttributeValues: {
+        ':msg': { S: newMessage },
+        ':updatedAt': { S: updatedAt }
+      },
+      ReturnValues: 'ALL_NEW'
+    });
+
+    const { Attributes } = await client.send(updateCommand);
+    return Attributes ? unmarshall(Attributes) : null;
+
+  } catch (error) {
+    console.error('Error updating message:', error);
+    return null;
   }
 };
