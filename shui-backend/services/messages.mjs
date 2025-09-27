@@ -1,4 +1,4 @@
-import { PutItemCommand, QueryCommand } from '@aws-sdk/client-dynamodb';
+import { PutItemCommand, QueryCommand, DeleteItemCommand } from '@aws-sdk/client-dynamodb';
 import { client } from './client.mjs';
 import { generateId } from '../utils/uuid.mjs';
 import { formatDateAndTime } from '../utils/createdAt.mjs';
@@ -125,5 +125,28 @@ export const getMessageById = async (messageId) => {
   } catch (error) {
     console.error("Error fetching message by ID:", error);
     return null;
+  }
+};
+
+export const deleteMessage = async (messageId) => {
+  const message = await getMessageById(messageId);
+  if (!message) {
+    return false;
+  }
+
+  const command = new DeleteItemCommand({
+    TableName: 'shui-messages-table',
+    Key: {
+      PK: { S: message.PK },
+      SK: { S: message.SK }
+    }
+  });
+
+  try {
+    await client.send(command);
+    return true;
+  } catch (error) {
+    console.error('Error deleting message:', error);
+    return false;
   }
 };
