@@ -1,7 +1,8 @@
-import { PutItemCommand } from '@aws-sdk/client-dynamodb';
+import { PutItemCommand, QueryCommand } from '@aws-sdk/client-dynamodb';
 import { client } from './client.mjs';
 import { generateId } from '../utils/uuid.mjs';
 import { formatDateAndTime } from '../utils/createdAt.mjs';
+import { unmarshall } from '@aws-sdk/util-dynamodb';
 
 export const addMessage = async ( username, message, messageId = null) => {
   if (!messageId) {
@@ -20,7 +21,7 @@ export const addMessage = async ( username, message, messageId = null) => {
       attributes: {
         M: {
           message: { S: message },
-          createAt: { S: dateTime }
+          createdAt: { S: dateTime }
         }
       }
     }
@@ -34,10 +35,71 @@ export const addMessage = async ( username, message, messageId = null) => {
       success: true,
       messageId,
       message,
-      createAt: dateTime
+      createdAt: dateTime
     };
   } catch (error) {
     console.error('Error creating message:', error);
     return { success: false };
+  }
+};
+
+export const getAllMessages = async ({ username, dateTime } = {}) => {
+  let command;
+
+  if (username && dateTime) {
+    command = new QueryCommand({
+      TableName: 'shui-messages-table',
+      KeyConditionExpression: 'PK = :pk',
+      FilterExpression: 'begins_with(#attributes.#createdAt, :createdAt)',
+      ExpressionAttributeNames: {
+        '#attributes': 'attributes',
+        '#createdAt': 'createdAt'
+      },
+      ExpressionAttributeValues: {
+        ':pk': { S: `USER#${username}` },
+        ':createdAt': { S: dateTime },
+      },
+    });
+  } else if (username) {
+    command = new QueryCommand({
+      TableName: 'shui-messages-table',
+      KeyConditionExpression: 'PK = :pk AND begins_with(SK, :sk)',
+      ExpressionAttributeValues: {
+        ':pk': { S: `USER#${username}` },
+        ':sk': { S: 'MESSAGE' },
+      },
+    });
+  } else if (dateTime) {
+    command = new QueryCommand({
+      TableName: 'shui-messages-table',
+      IndexName: 'GSI1',
+      KeyConditionExpression: 'GSI1PK = :gsi1pk',
+      FilterExpression: 'begins_with(#attributes.#createdAt, :createdAt)',
+      ExpressionAttributeNames: {
+        '#attributes': 'attributes',
+        '#createdAt': 'createdAt'
+      },
+      ExpressionAttributeValues: {
+        ':gsi1pk': { S: 'MESSAGE' },
+        ':createdAt': { S: dateTime },
+      },
+    });
+  } else {
+    command = new QueryCommand({
+      TableName: 'shui-messages-table',
+      IndexName: 'GSI1',
+      KeyConditionExpression: 'GSI1PK = :gsi1pk',
+      ExpressionAttributeValues: {
+        ':gsi1pk': { S: 'MESSAGE' }
+      },
+    });
+  }
+
+  try {
+    const { Items } = await client.send(command);
+    return Items.map((item) => unmarshall(item));
+  } catch (error) {
+    console.error('Error fetching messages:', error);
+    return [];
   }
 };
