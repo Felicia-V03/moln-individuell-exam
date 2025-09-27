@@ -103,3 +103,27 @@ export const getAllMessages = async ({ username, dateTime } = {}) => {
     return [];
   }
 };
+
+export const getMessageById = async (messageId) => {
+  const command = new QueryCommand({
+    TableName: 'shui-messages-table',
+    IndexName: "GSI1",
+    KeyConditionExpression: "GSI1PK = :gsi1pk AND GSI1SK = :gsi1sk",
+    ExpressionAttributeValues: {
+      ":gsi1pk": { S: "MESSAGE" },
+      ":gsi1sk": { S: messageId },
+    },
+    Limit: 1,
+  });
+
+  try {
+    const { Items } = await client.send(command);
+    if (Items && Items.length > 0) {
+      return unmarshall(Items[0]);
+    }
+    return null;
+  } catch (error) {
+    console.error("Error fetching message by ID:", error);
+    return null;
+  }
+};
