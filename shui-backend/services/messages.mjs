@@ -1,8 +1,9 @@
-import { PutItemCommand, QueryCommand, DeleteItemCommand } from '@aws-sdk/client-dynamodb';
+import { PutItemCommand, QueryCommand, DeleteItemCommand, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
 import { client } from './client.mjs';
 import { generateId } from '../utils/uuid.mjs';
 import { formatDateAndTime } from '../utils/createdAt.mjs';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
+import { formatDateAndTime } from '../utils/createdAt.mjs';
 
 export const addMessage = async ( username, message, messageId = null) => {
   if (!messageId) {
@@ -148,5 +149,35 @@ export const deleteMessage = async (messageId) => {
   } catch (error) {
     console.error('Error deleting message:', error);
     return false;
+  }
+};
+
+export const updateMessage = async (username, messageId, newMessage) => {
+  const dateTime = formatDateAndTime();
+
+  const command = new UpdateItemCommand({
+    TableName: 'shui-messages-table',
+    Key: {
+      PK: { S: `USER#${username}` },
+      SK: { S: `MESSAGE#${messageId}` }
+    },
+    UpdateExpression: 'SET attributes.message = :msg, attributes.createdAt = :createdAt',
+    ExpressionAttributeValues: {
+      ':msg': { S: newMessage },
+      ':createdAt': { S: dateTime }
+    },
+    ReturnValues: 'ALL_NEW'
+  });
+
+  try {
+    const result = await client.send(command);
+    return result.Attributes ? {
+      messageId,
+      message: result.Attributes.attributes.M.message.S,
+      createdAt: result.Attributes.attributes.M.createdAt.S
+    } : null;
+  } catch (error) {
+    console.error('Error updating message:', error);
+    return null;
   }
 };
