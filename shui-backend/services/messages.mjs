@@ -1,9 +1,8 @@
-import { PutItemCommand, QueryCommand, DeleteItemCommand, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
+import { PutItemCommand, GetItemCommand, QueryCommand, DeleteItemCommand, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
 import { client } from './client.mjs';
 import { generateId } from '../utils/uuid.mjs';
 import { formatDateAndTime } from '../utils/createdAt.mjs';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
-import { formatDateAndTime } from '../utils/createdAt.mjs';
 
 export const addMessage = async ( username, message, messageId = null) => {
   if (!messageId) {
@@ -153,29 +152,40 @@ export const deleteMessage = async (messageId) => {
 };
 
 export const updateMessage = async (username, messageId, newMessage) => {
-  const dateTime = formatDateAndTime();
-
-  const command = new UpdateItemCommand({
+  const updatedAt = formatDateAndTime();
+  
+  const getCommand = new GetItemCommand({
     TableName: 'shui-messages-table',
     Key: {
       PK: { S: `USER#${username}` },
       SK: { S: `MESSAGE#${messageId}` }
-    },
-    UpdateExpression: 'SET attributes.message = :msg, attributes.createdAt = :createdAt',
-    ExpressionAttributeValues: {
-      ':msg': { S: newMessage },
-      ':createdAt': { S: dateTime }
-    },
-    ReturnValues: 'ALL_NEW'
+    }
   });
 
   try {
-    const result = await client.send(command);
-    return result.Attributes ? {
-      messageId,
-      message: result.Attributes.attributes.M.message.S,
-      createdAt: result.Attributes.attributes.M.createdAt.S
-    } : null;
+    const { Item } = await client.send(getCommand);
+
+    if (!Item) {
+      return null;
+    }
+
+    const updateCommand = new UpdateItemCommand({
+      TableName: 'shui-messages-table',
+      Key: {
+        PK: { S: `USER#${username}` },
+        SK: { S: `MESSAGE#${messageId}` }
+      },
+      UpdateExpression: 'SET attributes.message = :msg, attributes.updatedAt = :updatedAt',
+      ExpressionAttributeValues: {
+        ':msg': { S: newMessage },
+        ':updatedAt': { S: updatedAt }
+      },
+      ReturnValues: 'ALL_NEW'
+    });
+
+    const { Attributes } = await client.send(updateCommand);
+    return Attributes ? unmarshall(Attributes) : null;
+
   } catch (error) {
     console.error('Error updating message:', error);
     return null;
