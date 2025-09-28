@@ -128,27 +128,44 @@ export const getMessageById = async (messageId) => {
   }
 };
 
-export const deleteMessage = async (messageId) => {
-  const message = await getMessageById(messageId);
-  if (!message) {
-    return false;
-  }
-
-  const command = new DeleteItemCommand({
+export const deleteMessage = async (username, messageId) => {
+  const getCommand = new GetItemCommand({
     TableName: 'shui-messages-table',
     Key: {
-      PK: { S: message.PK },
-      SK: { S: message.SK }
+      PK: { S: `USER#${username}` },
+      SK: { S: `MESSAGE#${messageId}` }
     }
   });
 
   try {
+    const { Item } = await client.send(getCommand);
+
+    if (!Item) {
+      return false;
+    }
+
+    const command = new DeleteItemCommand({
+      TableName: 'shui-messages-table',
+      Key: {
+        PK: { S: `USER#${username}` },
+        SK: { S: `MESSAGE#${messageId}` }
+      }
+    });
+
     await client.send(command);
     return true;
   } catch (error) {
     console.error('Error deleting message:', error);
     return false;
   }
+
+  // try {
+  //   await client.send(command);
+  //   return true;
+  // } catch (error) {
+  //   console.error('Error deleting message:', error);
+  //   return false;
+  // }
 };
 
 export const updateMessage = async (username, messageId, newMessage) => {
