@@ -7,11 +7,15 @@ import { validateMessage } from '../../../middlewares/validateMessage.mjs';
 import { authenticateUser } from '../../../middlewares/authenticateUser.mjs';
 
 export const handler = middy(async (event) => {
+  // ta emot username och message från event body
   const username = event.user.username;
   const messageText = event.body.message;
 
+  // skapa meddelande
   const response = await addMessage(username, messageText);
   
+  // returnera svar
+  console.log('CreateMessage response:', response);
   if (response) {
     return sendResponse(201, { message: 'Message created', data: response });
   } else {
