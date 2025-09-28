@@ -10,10 +10,12 @@ export const handler = middy(async (event) => {
   const { message } = JSON.parse(event.body || '{}');
 
   if (!id) {
+    console.error("No messageId provided in path parameters");
     return sendResponse(400, { message: 'Message ID is required' });
   }
 
   if (!message || message.trim() === '') {
+    console.error("No message content provided in request body");
     return sendResponse(400, { message: 'Message content is required' });
   }
 
@@ -21,9 +23,11 @@ export const handler = middy(async (event) => {
     const updatedMessage = await updateMessage(username, id, message);
 
     if (!updatedMessage) {
+      console.error("Message not found or could not be updated for ID:", id);
       return sendResponse(404, { message: 'Message not found or could not be updated' });
     }
 
+    console.log("Updated message with ID:", id);
     return sendResponse(200, { message: 'Message updated successfully', updatedMessage });
   } catch (error) {
     console.error('Error in update handler:', error);
