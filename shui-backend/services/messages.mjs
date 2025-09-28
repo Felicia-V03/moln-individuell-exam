@@ -4,13 +4,16 @@ import { generateId } from '../utils/uuid.mjs';
 import { formatDateAndTime } from '../utils/createdAt.mjs';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
 
+// funktion för att lägga till ett nytt meddelande
 export const addMessage = async ( username, message, messageId = null) => {
   if (!messageId) {
     messageId = generateId(4);
   }
 
+  // skapa datum och tid för meddelandet
   const dateTime = formatDateAndTime();
 
+  // skapa kommando för att lägga till meddelandet i DynamoDB
   const command = new PutItemCommand({
     TableName: 'shui-messages-table',
     Item: {
@@ -43,10 +46,13 @@ export const addMessage = async ( username, message, messageId = null) => {
   }
 };
 
+// funktion för att hämta alla meddelanden, med valfria filter för användarnamn och datum/tid
 export const getAllMessages = async ({ username, dateTime } = {}) => {
   let command;
 
+  // skapa olika QueryCommand baserat på vilka filter som är angivna
   if (username && dateTime) {
+    // användarnamn och datum/tid
     command = new QueryCommand({
       TableName: 'shui-messages-table',
       KeyConditionExpression: 'PK = :pk',
@@ -61,6 +67,7 @@ export const getAllMessages = async ({ username, dateTime } = {}) => {
       },
     });
   } else if (username) {
+    // endast användarnamn
     command = new QueryCommand({
       TableName: 'shui-messages-table',
       KeyConditionExpression: 'PK = :pk AND begins_with(SK, :sk)',
@@ -70,6 +77,7 @@ export const getAllMessages = async ({ username, dateTime } = {}) => {
       },
     });
   } else if (dateTime) {
+    // endast datum/tid
     command = new QueryCommand({
       TableName: 'shui-messages-table',
       IndexName: 'GSI1',
@@ -85,6 +93,7 @@ export const getAllMessages = async ({ username, dateTime } = {}) => {
       },
     });
   } else {
+    // inga filter så hämta de alla meddelanden
     command = new QueryCommand({
       TableName: 'shui-messages-table',
       IndexName: 'GSI1',
@@ -104,7 +113,9 @@ export const getAllMessages = async ({ username, dateTime } = {}) => {
   }
 };
 
+// funktion för att hämta ett meddelande baserat på messageId
 export const getMessageById = async (messageId) => {
+  // skapa kommando för att hämta meddelande baserat på messageId
   const command = new QueryCommand({
     TableName: 'shui-messages-table',
     IndexName: "GSI1",
@@ -128,7 +139,9 @@ export const getMessageById = async (messageId) => {
   }
 };
 
+// funktion för att ta bort ett meddelande baserat på användarnamn och messageId
 export const deleteMessage = async (username, messageId) => {
+  // först kolla om meddelandet finns
   const getCommand = new GetItemCommand({
     TableName: 'shui-messages-table',
     Key: {
@@ -144,6 +157,7 @@ export const deleteMessage = async (username, messageId) => {
       return false;
     }
 
+    // skapa kommando för att ta bort meddelandet
     const command = new DeleteItemCommand({
       TableName: 'shui-messages-table',
       Key: {
@@ -158,19 +172,14 @@ export const deleteMessage = async (username, messageId) => {
     console.error('Error deleting message:', error);
     return false;
   }
-
-  // try {
-  //   await client.send(command);
-  //   return true;
-  // } catch (error) {
-  //   console.error('Error deleting message:', error);
-  //   return false;
-  // }
 };
 
+// funktion för att uppdatera ett meddelande baserat på användarnamn, messageId och nytt meddelande
 export const updateMessage = async (username, messageId, newMessage) => {
+  // uppdatera datum och tid 
   const updatedAt = formatDateAndTime();
   
+  // först kolla om meddelandet finns
   const getCommand = new GetItemCommand({
     TableName: 'shui-messages-table',
     Key: {
@@ -186,6 +195,7 @@ export const updateMessage = async (username, messageId, newMessage) => {
       return null;
     }
 
+    // skapa kommando för att uppdatera meddelandet
     const updateCommand = new UpdateItemCommand({
       TableName: 'shui-messages-table',
       Key: {

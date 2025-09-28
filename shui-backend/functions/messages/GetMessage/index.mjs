@@ -7,12 +7,15 @@ export const handler = middy(async (event) => {
   try {
     const { username, dateTime } = event.queryStringParameters || {};
 
+    // hämta alla meddelanden med valfria filter
     const messages = await getAllMessages({ username, dateTime });
 
+    // returnera svar beroende på om meddelanden finns
     if (messages.length === 0) {
       console.log('No messages found yet');
       return sendResponse(404, { message: 'No messages found yet' });
-    } else {    
+    } else {
+      // returnera alla meddelanden
       console.log('Messages retrieved successfully:', messages);
       return sendResponse(200, { messages });
     }
