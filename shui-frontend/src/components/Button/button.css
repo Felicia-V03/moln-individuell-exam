@@ -1,0 +1,27 @@
+button {
+  width: 320px;
+  height: 80px;
+  font-family: var(--text-font-mono);
+  font-size: 2rem;
+  cursor: pointer;
+  border-radius: 50px;
+}
+
+.button-line {
+  color: var(--color-yellow);
+  background-color: var(--color-red);
+  border-color: var(--color-yellow);
+  border: 2px solid;
+}
+
+.button-full__yellow {
+  color: var(--color-red);
+  background-color: var(--color-yellow);
+  border: none;
+}
+
+.button-full__red {
+  color: var(--color-yellow);
+   border: none;
+
+}
