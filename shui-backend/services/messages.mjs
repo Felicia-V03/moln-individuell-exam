@@ -5,7 +5,7 @@ import { formatDateAndTime } from '../utils/createdAt.mjs';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
 
 // funktion för att lägga till ett nytt meddelande
-export const addMessage = async ( username, message, messageId = null) => {
+export const addMessage = async ( username, title, message, messageId = null) => {
   if (!messageId) {
     messageId = generateId(4);
   }
@@ -23,6 +23,7 @@ export const addMessage = async ( username, message, messageId = null) => {
       GSI1SK: { S: messageId },
       attributes: {
         M: {
+          title: { S: title },
           message: { S: message },
           createdAt: { S: dateTime }
         }
@@ -37,6 +38,7 @@ export const addMessage = async ( username, message, messageId = null) => {
     return {
       success: true,
       messageId,
+      title,
       message,
       createdAt: dateTime
     };

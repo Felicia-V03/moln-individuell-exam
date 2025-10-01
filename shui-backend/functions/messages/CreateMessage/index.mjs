@@ -9,10 +9,11 @@ import { authenticateUser } from '../../../middlewares/authenticateUser.mjs';
 export const handler = middy(async (event) => {
   // ta emot username och message från event body
   const username = event.user.username;
+  const messageTitle = event.body.title;
   const messageText = event.body.message;
 
   // skapa meddelande
-  const response = await addMessage(username, messageText);
+  const response = await addMessage(username, messageTitle, messageText);
   
   // returnera svar
   console.log('CreateMessage response:', response);
