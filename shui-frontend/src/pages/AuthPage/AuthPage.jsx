@@ -1,4 +1,6 @@
 import './authPage.css';
+import LoginForm from '../../components/LoginForm/LoginForm';
+import RegisterForm from '../../components/RegisterForm/RegisterForm';
 import { useLocation } from 'react-router-dom';
 import { useState } from 'react'; 
 
