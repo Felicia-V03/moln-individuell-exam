@@ -20,7 +20,7 @@ const Navigation = () => {
         <i className="fa-solid fa-xmark" onClick={closeMenu}></i>
         <ul className="nav-list">
           <li className="nav-list__item"><Link to="/messages" onClick={closeMenu}>MESSAGE</Link></li>
-          <li className="nav-list__item"><Link to="/create-message" onClick={closeMenu}>CREATE MESSAGE</Link></li>
+          <li className="nav-list__item"><Link to="/message" onClick={closeMenu}>CREATE MESSAGE</Link></li>
           <li className="nav-list__item"><Link to="/my-profile" onClick={closeMenu}>MY PROFILE</Link></li>
         </ul>
       </div>

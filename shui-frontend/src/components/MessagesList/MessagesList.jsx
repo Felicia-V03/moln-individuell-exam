@@ -27,7 +27,6 @@ const MessagesList = () => {
     <ul className="messages-list">
       {messages.map((msg, idx) => (
         <ol className='messages-list__item' key={msg.SK || idx}>
-          <h3>{msg.attributes.title}</h3>
           <p>{msg.attributes.message}</p>
           <span>{msg.PK.replace('USER#', '')}</span>
           <p>{msg.attributes.createdAt}</p>
