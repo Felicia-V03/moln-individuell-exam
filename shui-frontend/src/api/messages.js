@@ -6,7 +6,7 @@ export const fetchMessage = async () => {
     .catch(error => { return error; });
 
   if(response.status === 200) {
-    return response.message;
+    return response.data.messages || [];
   } else {
     return [];
   }
