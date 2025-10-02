@@ -40,7 +40,7 @@ const LoginForm = ({ toggleForm }) => {
       }
     } catch (err) {
       setError("Something went wrong. Please try again.")
-      console.log(err);
+      console.log(error);
     };
   }
 
