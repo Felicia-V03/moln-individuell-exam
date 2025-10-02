@@ -9,13 +9,6 @@
   --color-grey: #6E6E6E;
 }
 
-.app {
-  min-height: 832px;
-  width: 411px;
-  background-color: #9C041C;
-
-}
-
 .page {
   font-family: var(--text-font-mono);
 }
