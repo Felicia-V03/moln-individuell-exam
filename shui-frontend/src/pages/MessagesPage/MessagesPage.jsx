@@ -3,9 +3,14 @@ import MessagesList from '../../components/MessagesList/MessagesList';
 import Navigation from '../../components/Navigation/Navigation';
 import DateFilter from '../../components/DateFilter/DateFilter';
 import { useState } from "react";
+import { useAuthStore } from "../../stores/useAuthStore";
+
 
 const MessagesPage = () => {
   const [date, setDate] = useState("");
+  const user = useAuthStore(state => state.user);  
+  console.log("User:", user);
+
 
   return (
     <section className="messages-page">

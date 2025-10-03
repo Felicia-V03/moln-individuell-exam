@@ -13,7 +13,7 @@ const AuthPage = () => {
   const toggleForm = (form) => {
     setActiveForm(form);
   }
-
+  
   return (
     <section className="auth-page page">
       {activeForm === 'LOGIN' ? (
