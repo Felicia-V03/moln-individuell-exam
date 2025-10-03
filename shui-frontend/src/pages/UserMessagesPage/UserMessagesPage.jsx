@@ -11,8 +11,8 @@ const UserMessagesPage = () => {
     <section className="messages-page">
       <header>
         < BackButton />
-        < Navigation />
         <h1 className="messages-page__title">MESSAGES FROM { username }</h1>
+        < Navigation />
       </header>
 
       < MessagesList username={ username }/>

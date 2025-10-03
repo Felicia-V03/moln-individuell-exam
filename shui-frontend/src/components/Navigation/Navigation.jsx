@@ -9,6 +9,11 @@ const Navigation = () => {
   const toggleMenu = () => setMenuOpen(prev => !prev);
   const closeMenu = () => setMenuOpen(false);
 
+  const handleLogout = () => {
+    logout();
+    closeMenu();
+  };
+
   return (
     <section className="section-meny">
       <i className="fa-solid fa-bars" onClick={toggleMenu}></i>
@@ -21,7 +26,7 @@ const Navigation = () => {
         <ul className="nav-list">
           <li className="nav-list__item"><Link to="/messages" onClick={closeMenu}>MESSAGE</Link></li>
           <li className="nav-list__item"><Link to="/message" onClick={closeMenu}>CREATE MESSAGE</Link></li>
-          <li className="nav-list__item"><Link to="/my-profile" onClick={closeMenu}>MY PROFILE</Link></li>
+          <li className="nav-list__item"><Link to="/" onClick={handleLogout}>LOG OUT</Link></li>
         </ul>
       </div>
     </section>
