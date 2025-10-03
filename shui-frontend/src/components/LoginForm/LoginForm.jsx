@@ -12,36 +12,20 @@ const LoginForm = ({ toggleForm }) => {
   const navigate = useNavigate();
   const {setToken} = useAuthToken();
 
-  const [error, setError] = useState(null);
-
   const loginUser = async (e) => {
     e.preventDefault();
-    setError(null);
 
-    const username = usernameRef.current.value.trim();
-    const password = passwordRef.current.value;
-
-    if (!username || !password) {
-      setError("Please fill in both fields");
-      return;
-    }
-
-    try {
-      const result = await loginApi({ username, password});
-      if (result.status === 200) {
-        // Spara token i auth hook
-        setToken(result.data.token);
-        // Uppdatera i auth store
-        login(result.data.user);
-        //Fortsätt till messages sidan
-        navigate('/messages')
-      } else {
-        setError(result.message || "Invalid username or password");
-      }
-    } catch (err) {
-      setError("Something went wrong. Please try again.")
-      console.log(error);
-    };
+    const result = await loginApi({
+      username : usernameRef.current.value,
+      password : passwordRef.current.value
+    });
+    console.log(result.data);
+    login({
+      username : usernameRef.current.value,
+      token : result.data.token
+    });
+    setToken(result.data.token);
+    navigate("/messages");
   }
 
   return (
@@ -56,7 +40,7 @@ const LoginForm = ({ toggleForm }) => {
         <input type="password" className="form__input" ref={ passwordRef } required/>
       </label>
 
-      <button className="form__button" onClick={ loginUser }>Sign In</button>
+      <button className="form__button" onClick={ loginUser } >Sign In</button>
       <p className="form__text">Don't have an account? <span onClick={ () => toggleForm('REGISTER') } className="form__link">Sign Up</span></p>
     
     </form>
