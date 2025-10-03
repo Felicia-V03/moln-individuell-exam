@@ -2,14 +2,19 @@ import './messagesList.css';
 import { fetchMessage } from '../../api/messages';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../../stores/useAuthStore';
 
 const MessagesList = ({ username, date }) => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const currentUser = useAuthStore(state => state.user);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getMessages = async () => {
       const allMessages = await fetchMessage();
+    
 
       let filtered = username
         ? allMessages.filter(msg => msg.PK === `USER#${username}`)
@@ -33,17 +38,32 @@ const MessagesList = ({ username, date }) => {
 
   return (
     <ul className="messages-list">
-      {messages.map((msg, idx) => (
-        <li className="messages-list__item" key={msg.SK || idx}>
-          <p>{msg.attributes.message}</p>
-          <span>
-            <Link to={`/user/${msg.PK.replace("USER#", "")}`}>
-              {msg.PK.replace("USER#", "")}
-            </Link>
-          </span>
-          <p>{msg.attributes.createdAt}</p>
-        </li>
-      ))}
+      {messages.map((msg, idx) => {
+        const msgUser = msg.PK.replace('USER#', '');
+        const isOwnMessage = currentUser && currentUser.username === msgUser;
+
+        console.log("Message owner:", msgUser, "Current user:", currentUser?.username, "isOwnMessage:", isOwnMessage);
+
+        return (
+          <li className='messages-list__item' key={msg.SK || idx}>
+            <p>{msg.attributes.message}</p>
+            <span>
+              <Link to={`/user/${msg.PK.replace("USER#", "")}`}>
+                {msg.PK.replace("USER#", "")}
+              </Link>
+            </span>            
+            <p>{msg.attributes.createdAt}</p>
+
+            {isOwnMessage && (
+              <i
+                className="fa-solid fa-pencil edit-icon"
+                style={{ cursor: "pointer", marginLeft: "10px" }}
+                onClick={() => navigate(`/edit/${msg.SK.replace("MESSAGE#", "")}`)}
+              ></i>
+            )}
+          </li>
+        );
+      })}
     </ul>
   );
 };

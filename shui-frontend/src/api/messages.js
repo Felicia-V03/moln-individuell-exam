@@ -31,3 +31,57 @@ export const postMessage = async (data, token) => {
     return [];
   }
 }
+
+// Hämta meddelande via id
+export const fetchMessageById = async (id) => {
+  const response = await axios.get('https://845m84g828.execute-api.eu-north-1.amazonaws.com/api/messages/' + id)
+    .then(response => { return response; })
+    .catch(error => { return error; });
+
+  if(response.status === 200) {
+    return response.data.messages || [];
+  } else {
+    return [];
+  }
+};
+
+// Uppdatera meddelande
+export const updateMessage = async (id, data, token) => {
+  const authHeader = token;
+
+  const response = await axios.put('https://845m84g828.execute-api.eu-north-1.amazonaws.com/api/messages/' + id, data, {
+    headers: {
+      Authorization: authHeader,
+      "Content-Type": "application/json"
+    }
+  })
+  .then(response => { return response; })
+  .catch(error => { return error; });
+
+  console.log(data, token);
+  if(response.status === 200) {
+    return response;
+  } else {
+    return [];
+  }
+};
+
+// Ta bort meddelande
+export const deleteMessage = async (id, token) => {
+  const authHeader = token;
+
+  const response = await axios.delete('https://845m84g828.execute-api.eu-north-1.amazonaws.com/api/messages/' + id, {
+    headers: {
+      Authorization: authHeader,
+      "Content-Type": "application/json"
+    }
+  })
+  .then(response => { return response; })
+  .catch(error => { return error; });
+
+  if(response.status === 200) {
+    return response.data.messages || [];
+  } else {
+    return [];
+  }
+};
