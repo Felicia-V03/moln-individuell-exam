@@ -39,25 +39,24 @@ const RegisterForm = ({ toggleForm }) => {
 
   return (
     <form className="form">
-      <h1 className="form__title">Sign Up</h1>
+      <h1 className="form__title title">Sign Up</h1>
       <label className="form__label">
-        Username:
-        <input type="text" className="form__input" ref={ usernameRef } required/>
+        Username
       </label>
+      <input type="text" className="form__input" ref={ usernameRef } required/>
       <label className="form__label">
-        Email:
-        <input type="email" className="form__input" ref={ emailRef } required/>
+        Email
       </label>
+      <input type="email" className="form__input" ref={ emailRef } required/>
       <label className="form__label">
-        Password:
-        <input type="password" className="form__input" ref={ passwordRef } required/>
+        Password
       </label>
+      <input type="password" className="form__input" ref={ passwordRef } required/>
       <label className="form__label">
-        Confirm password:
-        <input type="password" className="form__input" ref={ passwordRepeatRef } required/>
+        Confirm password
       </label>
-
-      <button className="form__button" onClick={ registerUser }>Sign Up</button>
+      <input type="password" className="form__input" ref={ passwordRepeatRef } required/>
+      <button className="form__button button-full__blue" onClick={ registerUser }>Sign Up</button>
       <p className="form__text">Already a member? <span onClick={ () => toggleForm('LOGIN') } className="form__link">Sign In</span></p>
 
     </form>

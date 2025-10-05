@@ -8,11 +8,13 @@ const EditPage = () => {
   const { id } = useParams();
 
   return (
-    <section className='edit-page'>
+    <section className="edit-page page">
       <header>
-        < BackButton />
-        <h1 className="edit-page__title">EDIT MESSAGE</h1>
-        < Navigation />
+        <section className="nav-section">
+          < BackButton />
+          < Navigation />
+        </section>
+        <h1 className="edit-page__title title">EDIT MESSAGE</h1>
       </header>
 
       <EditMessage id={ id }/>

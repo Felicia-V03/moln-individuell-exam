@@ -3,6 +3,7 @@ import LoginForm from '../../components/LoginForm/LoginForm';
 import RegisterForm from '../../components/RegisterForm/RegisterForm';
 import { useLocation } from 'react-router-dom';
 import { useState } from 'react'; 
+import Logo from '../../components/Logo/Logo';
 
 const AuthPage = () => {
   const location = useLocation();
@@ -16,6 +17,7 @@ const AuthPage = () => {
   
   return (
     <section className="auth-page page">
+      <Logo/> 
       {activeForm === 'LOGIN' ? (
         <LoginForm toggleForm={toggleForm} />
       ) : (

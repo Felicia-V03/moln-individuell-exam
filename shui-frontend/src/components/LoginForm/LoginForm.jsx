@@ -30,15 +30,15 @@ const LoginForm = ({ toggleForm }) => {
 
   return (
     <form className="form">
-      <h1 className="form__title">Sign In</h1>
+      <h1 className="form__title title">Sign In</h1>
       <label className="form__label">
-        Username:
-        <input type="text" className="form__input" ref={ usernameRef } required/>
+        Username
       </label>
+      <input type="text" className="form__input" ref={ usernameRef } required/>
       <label className="form__label">
-        Password:
+        Password
+      </label>
         <input type="password" className="form__input" ref={ passwordRef } required/>
-      </label>
 
       <button className="form__button" onClick={ loginUser } >Sign In</button>
       <p className="form__text">Don't have an account? <span onClick={ () => toggleForm('REGISTER') } className="form__link">Sign Up</span></p>

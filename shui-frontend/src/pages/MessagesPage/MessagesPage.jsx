@@ -5,7 +5,6 @@ import DateFilter from '../../components/DateFilter/DateFilter';
 import { useState } from "react";
 import { useAuthStore } from "../../stores/useAuthStore";
 
-
 const MessagesPage = () => {
   const [date, setDate] = useState("");
   const user = useAuthStore(state => state.user);  
@@ -13,14 +12,18 @@ const MessagesPage = () => {
 
 
   return (
-    <section className="messages-page">
+    <section className="messages-page page">
       <header>
-        < Navigation />
-        <h1 className="messages-page__title">MESSAGES</h1>
+        <section className="nav-section">
+          < Navigation />
+        </section>
+        <h1 className="messages-page__title title">MESSAGES</h1>
       </header>
 
-      < DateFilter date={date} setDate={setDate} />
-      < MessagesList date={date}/>
+      <section className='messages-page__boby'>
+        < DateFilter date={date} setDate={setDate} />
+        < MessagesList date={date}/>      
+      </section>
     </section>
   )
 }
