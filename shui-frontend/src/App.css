@@ -3,12 +3,24 @@
 :root {
   --text-font-mono: "PT Mono", monospace;
 
-  --color-yellow: #FFBE58;
-  --color-red: #9C041C;
-  --color-cream: #FFD99D;
+  --color-cream: #ffeed1;
   --color-grey: #6E6E6E;
+  --color-beigt: #FFF6E7;
+  --color-blue: #5CE0E6;
+  --color-yellow: #FFD99D;
+  --color-dark-yellow: #FFBE58;
+  --color-brown: #7E530A;
 }
 
 .page {
+  width: 100vw;
+  height: 100vh;
   font-family: var(--text-font-mono);
+  background-color: var(--color-beigt);
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--color-blue);
 }

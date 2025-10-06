@@ -8,11 +8,13 @@ const UserMessagesPage = () => {
   const { username } = useParams();
 
   return (
-    <section className="messages-page">
+    <section className="messages-page page">
       <header>
-        < BackButton />
-        <h1 className="messages-page__title">MESSAGES FROM { username }</h1>
-        < Navigation />
+        <section className="nav-section">
+          < BackButton />
+          < Navigation />
+        </section>
+        <h1 className="messages-page__title title">MESSAGES FROM { username }</h1>
       </header>
 
       < MessagesList username={ username }/>

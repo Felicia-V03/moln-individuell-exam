@@ -5,9 +5,7 @@ const BackButton = () => {
   const navigate = useNavigate();
 
   return (
-    <button onClick={() => navigate(-1)} className="back-button">
-      <i className="fa-solid fa-arrow-left"></i>
-    </button>
+    <i className="fa-solid fa-arrow-left back-button" onClick={() => navigate(-1)}></i>
   );
 };
 

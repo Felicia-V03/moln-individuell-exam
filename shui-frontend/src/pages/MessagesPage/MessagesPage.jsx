@@ -4,7 +4,7 @@ import Navigation from '../../components/Navigation/Navigation';
 import DateFilter from '../../components/DateFilter/DateFilter';
 import { useState } from "react";
 import { useAuthStore } from "../../stores/useAuthStore";
-
+import Logo from "../../components/Logo/Logo";
 
 const MessagesPage = () => {
   const [date, setDate] = useState("");
@@ -13,14 +13,19 @@ const MessagesPage = () => {
 
 
   return (
-    <section className="messages-page">
+    <section className="messages-page page">
       <header>
-        < Navigation />
-        <h1 className="messages-page__title">MESSAGES</h1>
+        <section className="nav-section">
+          < Logo />
+          < Navigation />
+        </section>
+        <h1 className="messages-page__title title">ALL MESSAGES</h1>
       </header>
 
-      < DateFilter date={date} setDate={setDate} />
-      < MessagesList date={date}/>
+      <section className='messages-page__body'>
+        < DateFilter date={date} setDate={setDate} />
+        < MessagesList date={date}/>      
+      </section>
     </section>
   )
 }

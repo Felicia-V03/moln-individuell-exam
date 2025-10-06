@@ -8,20 +8,26 @@ button {
 }
 
 .button-line {
-  color: var(--color-yellow);
-  background-color: var(--color-red);
-  border-color: var(--color-yellow);
+  color: var(--color-blue);
+  border-color: var(--color-blue);
+  background-color: var(--color-beigt);
   border: 2px solid;
 }
 
-.button-full__yellow {
-  color: var(--color-red);
-  background-color: var(--color-yellow);
+.button-full__blue {
+  color: var(--color-beigt);
+  background-color: var(--color-blue);
   border: none;
 }
 
-.button-full__red {
-  color: var(--color-yellow);
-   border: none;
+.button-full__beigt {
+  color: var(--color-dark-yellow);
+  background-color: var(--color-beigt);
+  border: none;
+}
 
+.button-full__yellow {
+  color: var(--color-beigt);
+  background-color: var(--color-dark-yellow);
+  border: none;
 }
