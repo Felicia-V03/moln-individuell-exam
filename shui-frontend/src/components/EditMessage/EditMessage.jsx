@@ -1,3 +1,4 @@
+import "./editMessage.css"
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchMessageById, updateMessage, deleteMessage } from "../../api/messages";
@@ -16,18 +17,21 @@ const EditMessage = ({ id }) => {
   useEffect(() => {
     const loadMessage = async () => {
       const msg = await fetchMessageById(id);
-      console.log("Fetched message:", msg); // Felsök
+      console.log("Fetched message:", msg);
+
       if (msg) {
         setMessage(msg);
         setNewText(msg.attributes?.message || "");
       } else {
         console.error("Meddelandet hittades inte!");
       }
+
       setLoading(false);
     };
 
     loadMessage();
   }, [id]);
+
 
   const handleUpdate = async () => {
     await updateMessage(id, { message: newText }, token);
@@ -43,19 +47,17 @@ const EditMessage = ({ id }) => {
   if (!message) return <h2>Inget meddelande hittades.</h2>;
 
   return (
-    <div className="edit-message-page">
-      <h2>EDIT MESSAGE</h2>
+    <section className="edit-message">
       <textarea
         value={newText}
         onChange={(e) => setNewText(e.target.value)}
-        rows="4"
-        cols="50"
+        className="edit__input"
       />
-      <div style={{ marginTop: "10px" }}>
-        <button onClick={handleUpdate}>UPDATE</button>
-        <button onClick={handleDelete}>DELETE</button>
-      </div>
-    </div>
+      <section className="edit-button">
+        <button onClick={handleUpdate} className="button-full__yellow">UPDATE</button>
+        <button onClick={handleDelete} className="button-full__yellow">DELETE</button>
+      </section>
+    </section>
   );
 };
 

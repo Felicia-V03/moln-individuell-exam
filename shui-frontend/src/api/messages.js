@@ -30,18 +30,27 @@ export const postMessage = async (data, token) => {
   } else {
     return [];
   }
-}
+};
 
 // Hämta meddelande via id
 export const fetchMessageById = async (id) => {
-  const response = await axios.get('https://845m84g828.execute-api.eu-north-1.amazonaws.com/api/messages/' + id)
-    .then(response => { return response; })
-    .catch(error => { return error; });
+  try {
+    const response = await axios.get(
+      `https://845m84g828.execute-api.eu-north-1.amazonaws.com/api/messages/${id}`
+    );
 
-  if(response.status === 200) {
-    return response.data.messages || [];
-  } else {
-    return [];
+    console.log("Raw API response:", response.data);
+
+    if (response.status === 200) {
+      // Returnera själva objektet direkt
+      return response.data || null;
+    } else {
+      console.error("Fel statuskod:", response.status);
+      return null;
+    }
+  } catch (error) {
+    console.error("Fel vid hämtning av meddelande:", error);
+    return null;
   }
 };
 

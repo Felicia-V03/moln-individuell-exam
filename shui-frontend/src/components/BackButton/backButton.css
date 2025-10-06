@@ -1,8 +1,6 @@
 .back-button {
-  background: none;
   border: none;
   cursor: pointer;
-  font-size: 2rem; /* storlek på pilen */
-  padding: 5px;
-  color: #333;
+  font-size: 2rem;
+  color: var(--color-dark-yellow);
 }

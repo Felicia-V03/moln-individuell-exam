@@ -36,16 +36,14 @@ const AddMessage = () => {
   };
 
   return (
-    <form className="form">
-      <h1 className="form__title">CREATE MESSAGE</h1>
-
-      <label className="form__label">
-        Message:
-        <textarea className="form__input" ref={messageRef} required />
+    <form className="form-add">
+      <label className="form-add__label">
+        Message
+        <textarea className="form-add__input" ref={messageRef} required />
       </label>
 
-      <button type="button" className="form__button" onClick={messageHandle}>
-        Create Message
+      <button type="button" className="form-add__button button-full__yellow" onClick={messageHandle}>
+        Create
       </button>
 
       {status && <p className="form__text">{status}</p>}

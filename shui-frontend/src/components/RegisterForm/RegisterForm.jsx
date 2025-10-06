@@ -39,24 +39,35 @@ const RegisterForm = ({ toggleForm }) => {
 
   return (
     <form className="form">
-      <h1 className="form__title title">Sign Up</h1>
+      <h1 className="form__title title">CREATE ACCOUNT</h1>
       <label className="form__label">
         Username
       </label>
-      <input type="text" className="form__input" ref={ usernameRef } required/>
+      <section className="form-input__wrapper">
+        <i className="fa-regular fa-user form-icon"></i>
+        <input type="text" className="form__input" ref={ usernameRef } required/>
+      </section>      
       <label className="form__label">
         Email
       </label>
-      <input type="email" className="form__input" ref={ emailRef } required/>
+      <section className="form-input__wrapper">
+        <i class="fa-solid fa-envelope form-icon"></i>
+        <input type="email" className="form__input" ref={ emailRef } required/>
+      </section>
       <label className="form__label">
         Password
       </label>
-      <input type="password" className="form__input" ref={ passwordRef } required/>
-      <label className="form__label">
+      <section className="form-input__wrapper">
+        <i className="fa-solid fa-unlock form-icon"></i>
+        <input type="password" className="form__input" ref={ passwordRef } required/>  
+      </section>      <label className="form__label">
         Confirm password
       </label>
-      <input type="password" className="form__input" ref={ passwordRepeatRef } required/>
-      <button className="form__button button-full__blue" onClick={ registerUser }>Sign Up</button>
+      <section className="form-input__wrapper">
+        <i className="fa-solid fa-unlock form-icon"></i>
+        <input type="password" className="form__input" ref={ passwordRepeatRef } required/>  
+      </section>
+      <button className="form__button button-full__beigt" onClick={ registerUser }>Sign Up</button>
       <p className="form__text">Already a member? <span onClick={ () => toggleForm('LOGIN') } className="form__link">Sign In</span></p>
 
     </form>

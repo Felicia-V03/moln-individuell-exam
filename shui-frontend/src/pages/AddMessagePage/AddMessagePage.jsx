@@ -6,7 +6,7 @@ import Logo from '../../components/Logo/Logo';
 
 const MessagesPage = () => {
   return (
-    <section className="message-page page">
+    <section className="add-message-page page">
       <header>
         <section className="nav-section">
           < BackButton />        

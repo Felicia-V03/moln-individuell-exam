@@ -7,8 +7,7 @@
 .fa-bars {
   font-size: 2rem;
   cursor: pointer;
-  z-index: 1001;
-  position: relative;
+  color: var(--color-dark-yellow);
 }
 
 /* Menyn */

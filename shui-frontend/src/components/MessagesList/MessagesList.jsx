@@ -26,6 +26,10 @@ const MessagesList = ({ username, date }) => {
         );
       }
 
+      filtered.sort((a, b) => 
+        new Date(b.attributes.createdAt) - new Date(a.attributes.createdAt)
+      );
+
       setMessages(filtered);
       setLoading(false);
     };
@@ -46,21 +50,22 @@ const MessagesList = ({ username, date }) => {
 
         return (
           <li className='messages-list__item' key={msg.SK || idx}>
+            <section className='messages-list__head'>
+              <p>{msg.attributes.createdAt}</p>
+              {isOwnMessage && (
+                <i
+                  className="fa-solid fa-pencil edit-icon"
+                  style={{ cursor: "pointer", marginLeft: "10px" }}
+                  onClick={() => navigate(`/edit/${msg.SK.replace("MESSAGE#", "")}`)}
+                ></i>
+              )}
+            </section>
             <p>{msg.attributes.message}</p>
             <span>
-              <Link to={`/user/${msg.PK.replace("USER#", "")}`}>
-                {msg.PK.replace("USER#", "")}
+              <Link to={`/user/${msg.PK.replace("USER#", "")}`} className='user-link'>
+                <p>By {msg.PK.replace("USER#", "")}</p>
               </Link>
             </span>            
-            <p>{msg.attributes.createdAt}</p>
-
-            {isOwnMessage && (
-              <i
-                className="fa-solid fa-pencil edit-icon"
-                style={{ cursor: "pointer", marginLeft: "10px" }}
-                onClick={() => navigate(`/edit/${msg.SK.replace("MESSAGE#", "")}`)}
-              ></i>
-            )}
           </li>
         );
       })}

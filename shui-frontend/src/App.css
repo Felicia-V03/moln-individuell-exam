@@ -7,11 +7,14 @@
   --color-grey: #6E6E6E;
   --color-beigt: #FFF6E7;
   --color-blue: #5CE0E6;
+  --color-yellow: #FFD99D;
+  --color-dark-yellow: #FFBE58;
+  --color-brown: #7E530A;
 }
 
 .page {
-  height: 100vh;
   width: 100vw;
+  height: 100vh;
   font-family: var(--text-font-mono);
   background-color: var(--color-beigt);
 }
