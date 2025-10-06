@@ -1,0 +1,89 @@
+org: leucippus03
+service: shui-backend
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: eu-north-1
+  httpApi:
+    cors: true
+  iam:
+    role: arn:aws:iam::747901701476:role/BasicLambdaRole
+
+functions:
+  ##Auth
+  RegisterUser:
+    handler: functions/auth/RegisterUser/index.handler
+    events:
+      - httpApi:
+          path: /api/auth/register
+          method: POST
+  LoginUser:
+    handler: functions/auth/LoginUser/index.handler
+    events:
+      - httpApi:
+          path: /api/auth/login
+          method: POST
+
+  ##Messages
+  CreateMessage:
+    handler: functions/messages/CreateMessage/index.handler
+    events:
+      - httpApi:
+          path: /api/messages
+          method: POST
+  GetMessage:
+    handler: functions/messages/GetMessage/index.handler
+    events:
+      - httpApi:
+          path: /api/messages
+          method: GET
+  GetMessageById:
+    handler: functions/messages/GetMessageById/index.handler
+    events:
+      - httpApi:
+          path: /api/messages/{id}
+          method: GET
+  UpdateMessage:
+    handler: functions/messages/UpdateMessage/index.handler
+    events:
+      - httpApi:
+          path: /api/messages/{id}
+          method: PUT
+  DeleteMessage:
+    handler: functions/messages/DeleteMessage/index.handler
+    events:
+      - httpApi:
+          path: /api/messages/{id}
+          method: DELETE
+
+resources:
+  Resources:
+    MessagesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: shui-messages-table
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: PK
+            AttributeType: S
+          - AttributeName: SK
+            AttributeType: S
+          - AttributeName: GSI1PK
+            AttributeType: S
+          - AttributeName: GSI1SK
+            AttributeType: S
+        KeySchema:
+          - AttributeName: PK
+            KeyType: HASH
+          - AttributeName: SK
+            KeyType: RANGE  
+        GlobalSecondaryIndexes:
+          - IndexName: GSI1
+            KeySchema:
+              - AttributeName: GSI1PK
+                KeyType: HASH
+              - AttributeName: GSI1SK
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL

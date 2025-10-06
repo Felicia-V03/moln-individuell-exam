@@ -1,0 +1,27 @@
+.form-add {
+  margin: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+.form-add__label {
+  width: 350px;
+  background-color: var(--color-yellow);
+  color: var(--color-brown);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem;
+  border-radius: 20px;
+  margin-bottom: 2rem;
+
+}
+
+.form-add__input {
+  color: var(--color-brown);
+  background-color: var(--color-yellow);
+  border: none;
+  height: 10rem;
+}

@@ -1,0 +1,6 @@
+.back-button {
+  border: none;
+  cursor: pointer;
+  font-size: 2rem;
+  color: var(--color-dark-yellow);
+}

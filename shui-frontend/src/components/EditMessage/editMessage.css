@@ -1,0 +1,24 @@
+.edit-message {
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+}
+
+.edit__input {
+  color: var(--color-brown);
+  background-color: var(--color-yellow);
+  border: none;
+  height: 10rem;
+  border-radius: 20px;
+  padding: 1rem;
+}
+
+.edit-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}

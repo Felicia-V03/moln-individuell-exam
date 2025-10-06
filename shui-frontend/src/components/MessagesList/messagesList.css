@@ -1,0 +1,39 @@
+.fa-pencil {
+  font-size: 1.5rem;
+  cursor: pointer;
+  position: relative;
+}
+
+.messages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  list-style-type: none;
+}
+
+.messages-list__item {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  background-color: var(--color-yellow);
+  padding: 2rem;
+  border-radius: 20px;
+  color: var(--color-brown);
+  width: 350px;
+  height: auto;
+}
+
+.messages-list__head {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.user-link {
+  text-decoration: none;
+  color: var(--color-brown);
+}
+
+.user-link:active {
+  color: var(--color-brown);
+}

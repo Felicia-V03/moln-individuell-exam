@@ -1,0 +1,67 @@
+.section-meny {
+  position: relative;
+  font-family: var(--text-font-mono);
+}
+
+/* Hamburgare-ikon */
+.fa-bars {
+  font-size: 2rem;
+  cursor: pointer;
+  color: var(--color-dark-yellow);
+}
+
+/* Menyn */
+.navigation-meny {
+  position: fixed;
+  top: 0;
+  right: -250px;
+  width: 250px;
+  height: 100%;
+  background-color: #fff;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.3);
+  transition: right 0.3s ease;
+  z-index: 1000;
+  padding: 20px;
+}
+
+/* Menyn öppen */
+.navigation-meny.show-menu {
+  right: 0;
+}
+
+/* Close-ikon */
+.fa-xmark {
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: block;
+  margin-bottom: 20px;
+}
+
+/* Lista */
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-list__item {
+  margin: 15px 0;
+}
+
+.nav-list__item a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+.nav-section {
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+}
+
+.fa-bars {
+  display: flex;
+  align-items: end;
+  justify-content: end;
+}
